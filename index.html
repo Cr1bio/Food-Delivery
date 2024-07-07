@@ -27,29 +27,17 @@
       let deferredPrompt;
 
       window.addEventListener('beforeinstallprompt', (e) => {
-         console.log('beforeinstallprompt')
-         // Prevent the mini-infobar from appearing on mobile
-         e.preventDefault();
-         // Stash the event so it can be triggered later.
-         deferredPrompt = e;
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
 
-         // check if the app is already installed
-         // if (window.matchMedia('(display-mode: standalone)').matches) {
-         //    console.log('display-mode is standalone');
-         //    return false;
-         // }
-
-         // if page is open on mobile, show the install promotion
-         // if (window.innerWidth < 768) {
+            // Update UI notify the user they can add to home screen
             showInstallPromotion();
-         //    // Optionally, send analytics event that PWA install promo was shown.
-            console.log('beforeinstallprompt fired');
-         // }
-         // else {
-         //    return false;
-         // }
 
-      });
+            // Optionally, send analytics event that PWA install promo was shown.
+            console.log('beforeinstallprompt fired');
+        });
 
       function showInstallPromotion() {
    console.log('show')
