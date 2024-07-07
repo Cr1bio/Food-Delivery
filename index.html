@@ -1,11 +1,82 @@
 <!DOCTYPE html>
 
 <html>
-   <head>
-<meta name="viewport" content="width=device-width, Initial-scale=1">
-      <base target="_top">
-   </head>
-   <body>
-      <iframe allow="geolocation *" style="position: Absolute;top: 0;left: 0;width: 100%;height: 100%;border: 0;" src="https://script.google.com/macros/s/AKfycbw7n3_cB6uVFihgJhkUGkETqPxVj8gvy0cMFoWPXHggkkypkL-bvIe4qZM8ghgFsI1J/exec"></iframe>
-   </body>
+
+<head>
+   <meta name="viewport" content="width=device-width, Initial-scale=1">
+   <base target="_top">
+   <link rel="manifest" href="./manifest.json">
+   <link rel="icon" href="./icon.jpg" type="image/x-icon"/>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+   <iframe allow="geolocation *" style="position: Absolute;top: 0;left: 0;width: 100%;height: 100%;border: 0;"
+      src="https://script.google.com/macros/s/AKfycbw7n3_cB6uVFihgJhkUGkETqPxVj8gvy0cMFoWPXHggkkypkL-bvIe4qZM8ghgFsI1J/exec"></iframe>
+   <script>
+      if ('serviceWorker' in navigator) {
+         window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./service-worker.js').then(registration => {
+               console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, err => {
+               console.log('ServiceWorker registration failed: ', err);
+            });
+         });
+      }
+
+      let deferredPrompt;
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+         // Prevent the mini-infobar from appearing on mobile
+         e.preventDefault();
+         // Stash the event so it can be triggered later.
+         deferredPrompt = e;
+
+         // check if the app is already installed
+         if (window.matchMedia('(display-mode: standalone)').matches) {
+            console.log('display-mode is standalone');
+            return false;
+         }
+
+         // if page is open on mobile, show the install promotion
+         if (window.innerWidth < 768) {
+            showInstallPromotion();
+            // Optionally, send analytics event that PWA install promo was shown.
+            console.log('beforeinstallprompt fired');
+         }
+         else {
+            return false;
+         }
+
+      });
+
+      function showInstallPromotion() {
+
+         Swal.fire({
+            title: 'ติดตั้งแอพลิเคชั่น',
+            text: 'คุณสามารถติดตั้งแอพบนมือถือของคุณเพื่อใช้งานได้ดีขึ้น',
+            showCancelButton: true,
+            confirmButtonText: 'ติดตั้ง',
+            cancelButtonText: 'ยกเลิก',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+         }).then((result) => {
+            if (result.isConfirmed) {
+               deferredPrompt.prompt();
+               // Wait for the user to respond to the prompt
+               deferredPrompt.userChoice.then((choiceResult) => {
+                  if (choiceResult.outcome === 'accepted') {
+                     console.log('User accepted the A2HS prompt');
+                  } else {
+                     console.log('User dismissed the A2HS prompt');
+                  }
+                  deferredPrompt = null;
+               });
+            }
+         })
+      }
+
+   </script>
+</body>
+
 </html>
