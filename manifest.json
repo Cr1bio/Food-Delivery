@@ -1,13 +1,13 @@
 {
     "name": "Food Delivery",
     "short_name": "Food Delivery",
-    "start_url": "/Cr1bio/Food-Delivery/index.html",
+    "start_url": "/Food-Delivery/",
     "display": "standalone",
     "background_color": "#ef6330",
     "theme_color": "#ef6330",
     "icons": [
       {
-        "src": "/Cr1bio/Food-Delivery/icon.jpg",
+        "src": "/Food-Delivery/icon.jpg",
         "sizes": "30x30",
         "type": "image/jpeg"
       }
