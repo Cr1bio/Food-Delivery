@@ -2,9 +2,9 @@ self.addEventListener('install', event => {
     event.waitUntil(
       caches.open('my-cache').then(cache => {
         return cache.addAll([
-          '/Food-Delivery/',
-          '/Food-Delivery/index.html',
-          '/Food-Delivery/icon.jpg',
+          'https://cr1bio.github.io/Food-Delivery/',
+          'https://cr1bio.github.io/Food-Delivery/index.html',
+          'https://cr1bio.github.io/Food-Delivery/icon.jpg',
         ]);
       })
     );
